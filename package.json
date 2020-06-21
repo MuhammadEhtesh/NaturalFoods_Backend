@@ -4,6 +4,7 @@
   "description": "NaturalFoods_Backend",
   "main": "server.ts",
   "scripts": {
+    "start": "nodemon server.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -15,5 +16,16 @@
   "bugs": {
     "url": "https://github.com/MuhammadEhtesh/NaturalFoods_Backend/issues"
   },
-  "homepage": "https://github.com/MuhammadEhtesh/NaturalFoods_Backend#readme"
+  "homepage": "https://github.com/MuhammadEhtesh/NaturalFoods_Backend#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.9.19",
+    "typescript": "^3.9.5"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.6",
+    "nodemon": "^2.0.4",
+    "ts-node": "^8.10.2"
+  }
 }
