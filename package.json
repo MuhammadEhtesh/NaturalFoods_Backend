@@ -1,0 +1,19 @@
+{
+  "name": "naturalfoods",
+  "version": "1.0.0",
+  "description": "NaturalFoods_Backend",
+  "main": "server.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MuhammadEhtesh/NaturalFoods_Backend.git"
+  },
+  "author": "Muhammad Ehtesham",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MuhammadEhtesh/NaturalFoods_Backend/issues"
+  },
+  "homepage": "https://github.com/MuhammadEhtesh/NaturalFoods_Backend#readme"
+}
