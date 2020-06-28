@@ -1,12 +1,30 @@
 const express = require("express");
+const mongoose = require("mongoose");
+const config = require("./config/config");
+const registerRouter = require("./routes/register-route");
 
 const app = express();
-const port = process.env.PORT || 8080;
+app.use(express.json());
 
+// Mongodb Connection
+mongoose
+  .connect(config.DB, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => {
+    console.log("Db Connected!");
+  })
+  .catch((err) => console.log(err));
+
+// Welcome message
 app.get("/", (req, res) => {
   res.send("Welcome from naturalfoods!");
 });
 
-app.listen(port, () => {
-  console.log(`server is running on port ${port}`);
+// Routes
+app.use("/register", registerRouter);
+
+app.listen(config.PORT, () => {
+  console.log(`server is running on port ${config.PORT}`);
 });
