@@ -1,34 +1,43 @@
+const bcrypt = require("bcrypt");
 const express = require("express");
 const jwt = require("jsonwebtoken");
 const config = require("../config/config");
 const Register = require("../models/register");
 
 const router = express.Router();
+const saltRounds = 10;
+const tokenExpiration = "1h";
 
 router.post("/register", (req, res) => {
-  const newRegister = new Register(req.body);
-  Register.create(newRegister, (err, doc) => {
-    if (err) {
-      return res.status(404).send(err);
-    }
-    res.status(200).json(doc);
+  bcrypt.hash(req.body.password, saltRounds, (err, hash) => {
+    req.body.password = hash;
+
+    const newRegister = new Register(req.body);
+    Register.create(newRegister, (err, doc) => {
+      if (err) {
+        return res.status(404).send(err);
+      }
+      res.status(200).json(doc);
+    });
   });
 });
 
 router.post("/login", (req, res) => {
-  Register.find(
-    { username: req.body.username, password: req.body.password },
-    (err, user) => {
+  Register.findOne({ email: req.body.emailPhone }, (err, user) => {
+    if (err) {
+      return res.status(404);
+    }
+    bcrypt.compare(req.body.password, user.password, (err, result) => {
       if (err) {
-        return res.status(404).send(err);
+        return res.status(404);
       }
       jwt.sign(
         { user },
         config.JsonSecretKey,
-        { expiresIn: "30m" },
+        { expiresIn: tokenExpiration },
         (err, token) => {
           if (err) {
-            res.status(404).send(err);
+            res.status(404).json(err);
           }
           res.status(200).json({
             token: token,
@@ -36,8 +45,8 @@ router.post("/login", (req, res) => {
           });
         }
       );
-    }
-  );
+    });
+  });
 });
 
 // basic implementation for jwt verification
