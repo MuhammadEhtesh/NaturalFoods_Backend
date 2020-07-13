@@ -7,7 +7,8 @@ const registerSchema = new mongoose.Schema(
     mobile: { type: String },
     email: { type: String },
     password: { type: String, required: true },
-    username: { type: String, required: true },
+    confirmpassword: { type: String, required: true },
+    phone: { type: String, required: true },
   },
   {
     versionKey: false,
