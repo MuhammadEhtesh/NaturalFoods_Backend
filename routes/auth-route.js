@@ -10,6 +10,9 @@ const tokenExpiration = "1h";
 
 router.post("/register", (req, res) => {
   bcrypt.hash(req.body.password, saltRounds, (err, hash) => {
+    if (err) {
+      return res.status(404);
+    }
     req.body.password = hash;
     const newRegister = new Register(req.body);
     Register.create(newRegister, (err, doc) => {
