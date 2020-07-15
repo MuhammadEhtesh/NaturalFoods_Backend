@@ -9,14 +9,27 @@ const saltRounds = 10;
 const tokenExpiration = "1h";
 
 router.post("/register", (req, res) => {
-  bcrypt.hash(req.body.password, saltRounds, (err, hash) => {
-    req.body.password = hash;
-    const newRegister = new Register(req.body);
-    Register.create(newRegister, (err, doc) => {
-      if (err) {
-        return res.status(404).send(err);
-      }
-      res.status(200).json(doc);
+  Register.findOne({ email: req.body.email }, (err, user) => {
+    if (err) {
+      return res.status(404).json({
+        message: "Error Occurred!",
+      });
+    }
+    if (user) {
+      return res.status(409).json({
+        message: "User Already exist!",
+      });
+    }
+
+    bcrypt.hash(req.body.password, saltRounds, (err, hash) => {
+      req.body.password = hash;
+      const newRegister = new Register(req.body);
+      Register.create(newRegister, (err, doc) => {
+        if (err) {
+          return res.status(404).send(err);
+        }
+        res.status(200).json(doc);
+      });
     });
   });
 });
