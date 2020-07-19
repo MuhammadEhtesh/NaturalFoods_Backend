@@ -72,7 +72,6 @@ router.get("/registers", verifyToken, (req, res) => {
           return res.send(err);
         }
         res.json({
-          authData,
           registers,
         });
       });
